@@ -20,7 +20,10 @@ jobs:
       - name: Extract signing key
         run: |-
           mkdir -p $HOME/.gnupg
-          echo "${{ secrets.GPG_KEY }}" > $HOME/.gnupg/sagernet.key
+          cat > $HOME/.gnupg/sagernet.key <<EOF
+          ${{ secrets.GPG_KEY }}
+          echo "HOME=$HOME" >> "$GITHUB_ENV"
+          EOF
           echo "HOME=$HOME" >> "$GITHUB_ENV"
       - name: Install GoReleaser (OSS version)
         run: |
