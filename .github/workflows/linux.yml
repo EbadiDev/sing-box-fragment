@@ -26,9 +26,9 @@ jobs:
         run: |
           curl -sfL https://goreleaser.com/static/run | VERSION=nightly DISTRIBUTION=oss bash -s --
       - name: Publish release
-        run: goreleaser release -f .goreleaser.yaml --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FURY_TOKEN: ${{ secrets.FURY_TOKEN }}
           NFPM_KEY_PATH: ${{ env.HOME }}/.gnupg/sagernet.key
           NFPM_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: goreleaser release -f .goreleaser.yaml --clean
