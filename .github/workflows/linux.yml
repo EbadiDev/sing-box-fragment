@@ -20,17 +20,13 @@ jobs:
       - name: Extract signing key
         run: |-
           mkdir -p $HOME/.gnupg
-          cat > $HOME/.gnupg/sagernet.key <<EOF
-          ${{ secrets.GPG_KEY }}
-          echo "HOME=$HOME" >> "$GITHUB_ENV"
-          EOF
+          echo "${{ secrets.GPG_KEY }}" > $HOME/.gnupg/sagernet.key
           echo "HOME=$HOME" >> "$GITHUB_ENV"
       - name: Install GoReleaser (OSS version)
         run: |
           curl -sfL https://goreleaser.com/static/run | VERSION=nightly DISTRIBUTION=oss bash -s --
       - name: Publish release
-        run: |
-          goreleaser release --clean
+        run: goreleaser release -f .goreleaser.yaml --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FURY_TOKEN: ${{ secrets.FURY_TOKEN }}
